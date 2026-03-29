@@ -1,1 +1,300 @@
 
+:root {
+  --bg-black: #050505;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --border-dim: rgba(255, 255, 255, 0.1);
+  --font-mono: 'Courier New', monospace;
+  --accent-cyan: #7df9ff;
+  --high-impact: #ff4d4d;
+  --moderate-impact: #ffd166;
+  --low-impact: #06d6a0;
+  --text-gray: #b2abab;
+}
+
+body {
+  background: var(--bg-black);
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  overflow: auto;
+  padding-bottom: 40px;
+}
+
+/* --- HEADER --- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 40px;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+header h1.headline {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-weight: 800;
+  font-size: clamp(22px, 3vw, 34px);
+  color: #ffffff;
+  margin: 0;
+  text-align: center;
+}
+
+/* --- MAIN GRID --- */
+.main-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.topic-title {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  border-bottom: 1px solid currentColor;
+}
+
+.topic-tiles {
+  overflow-y: auto;
+  max-height: calc(100vh - 140px);
+}
+.topic-tiles::-webkit-scrollbar { display: none; }
+
+/* --- CARD --- */
+.signal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-dim);
+  border-left: 3px solid;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.signal-card:hover {
+  background: rgba(212, 190, 190, 0.05);
+  transform: translateX(2px);
+}
+
+/* ---------------- NEWS TILE INLINE ---------------- */
+.signal-card .headline {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  gap: 8px;
+}
+
+.signal-card .headline .expand-arrow {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: var(--accent-cyan);
+  cursor: pointer;
+  text-shadow: 0 0 5px var(--accent-cyan), 0 0 10px var(--accent-cyan);
+  transition: transform 0.2s ease;
+}
+.signal-card .headline .expand-arrow:hover { transform: scale(1.2); }
+
+.signal-card .headline .news-title {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+/* --- NEW: Severity (badge + text) --- */
+.signal-card .headline .severity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.signal-card .headline .severity-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--moderate-impact);
+  box-shadow: 0 0 8px var(--moderate-impact);
+}
+
+.signal-card .headline .severity-text {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--moderate-impact);
+}
+
+
+
+/* --- Severity Variants --- */
+
+/* HIGH */
+.severity.high .severity-badge {
+  background-color: var(--high-impact);
+  box-shadow: 0 0 10px var(--high-impact);
+}
+.severity.high .severity-text {
+  color: var(--high-impact);
+  font-weight: 700;
+}
+
+/* MODERATE */
+.severity.moderate .severity-badge {
+  background-color: var(--moderate-impact);
+  box-shadow: 0 0 8px var(--moderate-impact);
+}
+.severity.moderate .severity-text {
+  color: var(--moderate-impact);
+}
+
+/* LOW */
+.severity.low .severity-badge {
+  background-color: var(--low-impact);
+  box-shadow: 0 0 6px var(--low-impact);
+}
+.severity.low .severity-text {
+  color: var(--low-impact);
+}
+
+.signal-card .headline .news-logo {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.news-logo {
+  width: 16px;    /* previously 14px */
+  height: 16px;   /* previously 14px */
+  opacity: 0.9;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.news-logo:hover {
+  transform: scale(2);
+}
+
+
+/* Impact text */
+.impact-container {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.impact-label {
+  font-family: var(--font-mono);
+  font-weight: bold;
+  color: var(--text-gray);
+  margin-right: 4px;
+}
+
+.impact-text {
+  font-size: 15px;
+  color: #ddd;
+}
+
+/* Action bar */
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plan-pill {
+  font-family: var(--font-mono);
+  background: var(--accent-cyan);
+  color: black;
+  font-size: 12px;
+  padding: 2px 6px;
+  font-weight: bold;
+}
+
+.plan-text {
+  font-size: 14px;
+  color: #ddd;
+  text-transform: uppercase;
+}
+
+/* Severity borders */
+.signal-card.high-impact { border-left-color: var(--high-impact); }
+.signal-card.moderate-impact { border-left-color: var(--moderate-impact); }
+.signal-card.low-impact { border-left-color: var(--low-impact); }
+
+/* Alerts */
+.active-alert {
+  border-left-width: 4px;
+  background: rgba(255,0,0,0.2);
+  animation: alertFade 4s forwards;
+}
+
+@keyframes alertFade {
+  0% { background: rgba(255,0,0,0.3); }
+  100% { background: var(--card-bg); }
+}
+
+/* Timestamp */
+#last-updated {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-gray);
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+/* Floating Legend */
+.legend {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: #ff0000;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+#visits-stats {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #e0e0e0;
+  text-align: right;
+  z-index: 9999;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+#visits-stats h3 { margin: 0 0 4px 0; font-size: 13px; }
+#visits-stats p { margin: 2px 0; font-size: 12px; }
+
+/* ---------------- VISITS DISPLAY ---------------- */
+#visits-container {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(0,0,0,0.65);
+  color: #0ff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 13px;
+  z-index: 9999;
+  text-align: right;
+  line-height: 1.4em;
+}
