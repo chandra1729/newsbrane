@@ -1,6 +1,8 @@
-
 const container = document.getElementById("main-container");
 const lastUpdatedEl = document.getElementById("last-updated");
+
+/* 🔥 ADD THIS (GLOBAL API BASE) */
+const API_BASE = "https://newsbrane-production.up.railway.app";
 
 let newsBuffers = {};
 let domMap = {};
@@ -43,7 +45,7 @@ function getActionLabel(severity) {
 /* ---------------- API CALLS ---------------- */
 async function getCondensedTitle(text) {
   try {
-    const res = await fetch("http://localhost:5005/summarize", {
+    const res = await fetch(`${API_BASE}/summarize`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text })
@@ -57,7 +59,7 @@ async function getCondensedTitle(text) {
 
 async function getSignalsFromLLM(text) {
   try {
-    const res = await fetch("http://localhost:5005/signals", {
+    const res = await fetch(`${API_BASE}/signals`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text })
@@ -125,18 +127,15 @@ async function updateCardContent(newsObj, id) {
   const severity = signals.severity || "LOW";
   const level = severity.toLowerCase();
 
-  /* 🔥 Detect headline change */
   const isNewHeadline = lastHeadlines[id] !== newsObj.title;
   lastHeadlines[id] = newsObj.title;
 
-  /* 🔥 Animation trigger */
   if (isNewHeadline || severity === "HIGH") {
     card.classList.remove("updated");
     void card.offsetWidth;
     card.classList.add("updated");
   }
 
-  /* SEVERITY UI */
   const severityEl = card.querySelector(".severity");
   const severityText = card.querySelector(".severity-text");
 
@@ -146,7 +145,6 @@ async function updateCardContent(newsObj, id) {
   card.classList.remove("high-impact", "moderate-impact", "low-impact");
   card.classList.add(`${level}-impact`);
 
-  /* 🔥 HIGH ALERT FLASH FIX */
   card.classList.remove("active-alert");
   void card.offsetWidth;
 
@@ -154,7 +152,6 @@ async function updateCardContent(newsObj, id) {
     card.classList.add("active-alert");
   }
 
-  /* HEADLINE */
   const titleEl = card.querySelector(".news-title");
   titleEl.textContent = shortTitle;
 
@@ -163,7 +160,6 @@ async function updateCardContent(newsObj, id) {
     if (newsObj.url) window.open(newsObj.url, "_blank");
   };
 
-  /* FAVICON */
   const favicon = card.querySelector(".news-logo");
   favicon.src = newsObj.url ? getFavicon(newsObj.url) : "";
   favicon.style.cursor = newsObj.url ? "pointer" : "default";
@@ -171,16 +167,14 @@ async function updateCardContent(newsObj, id) {
     if (newsObj.url) window.open(newsObj.url, "_blank");
   };
 
- favicon.onerror = () => {
-  favicon.onerror = null; // 🛑 STOP LOOP
-  favicon.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='2' y='12'>•</text></svg>";
-};
+  favicon.onerror = () => {
+    favicon.onerror = null;
+    favicon.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='2' y='12'>•</text></svg>";
+  };
 
-  /* IMPACT */
   card.querySelector(".impact-text").textContent =
     signals.howItHitsYou || "Scanning for impact...";
 
-  /* ACTION */
   const label = getActionLabel(severity);
   card.querySelector(".plan-pill").textContent = label;
 
@@ -196,7 +190,7 @@ async function updateCardContent(newsObj, id) {
 async function fetchTopicNews(topic) {
   try {
     const res = await fetch(
-      `http://localhost:5005/news?q=${encodeURIComponent(topic.query)}`
+      `${API_BASE}/news?q=${encodeURIComponent(topic.query)}`
     );
     const data = await res.json();
 
@@ -286,7 +280,6 @@ async function silentRefresh() {
 
   await updateAllTiles();
 
-  /* 🔥 FORCE HIGH FLASH EVERY CYCLE */
   for (const id in domMap) {
     const card = domMap[id];
     if (card.classList.contains("high-impact")) {
@@ -310,7 +303,7 @@ function updateTimestamp() {
 /* ---------------- RUN ---------------- */
 window.onload = () => {
   init();
-  setInterval(silentRefresh, 15000); // ✅ 1 MINUTE
+  setInterval(silentRefresh, 15000);
 };
 
 /* ---------------- VISITS ---------------- */
@@ -320,7 +313,7 @@ document.body.appendChild(visitsContainer);
 
 async function updateVisits() {
   try {
-    const res = await fetch("http://localhost:5005/api/visits");
+    const res = await fetch(`${API_BASE}/api/visits`);
     const data = await res.json();
 
     visitsContainer.innerHTML = `
