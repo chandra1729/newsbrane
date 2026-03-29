@@ -1,5 +1,6 @@
 const container = document.getElementById("main-container");
 const lastUpdatedEl = document.getElementById("last-updated");
+const REFRESH_INTERVAL = 1000 * 60 * 60; // 1 hour
 
 /* 🔥 ADD THIS (GLOBAL API BASE) */
 const API_BASE = "https://newsbrane-production.up.railway.app";
@@ -301,9 +302,17 @@ function updateTimestamp() {
 }
 
 /* ---------------- RUN ---------------- */
-window.onload = () => {
-  init();
-  setInterval(silentRefresh, 15000);
+window.onload = async () => {
+  await init(); // initial load
+
+  // Only refresh every hour
+  setInterval(async () => {
+    console.log("Hourly refresh triggered...");
+    for (const topic of CONFIG.topics) {
+      await fetchTopicNews(topic); // fetch fresh news from API
+    }
+    await silentRefresh(); // update tiles with new news
+  }, REFRESH_INTERVAL);
 };
 
 /* ---------------- VISITS ---------------- */
