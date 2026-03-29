@@ -8,7 +8,7 @@ require("dotenv").config();
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const { google } = require("googleapis");
 
-const GA_KEY = require("./ga-key.json");
+let GA_KEY = null;
 const GA_PROPERTY_ID = "529846605";
 
 const app = express();
@@ -271,6 +271,10 @@ setInterval(() => {
 
 /* ------------------ GA ------------------ */
 async function getHistoricalVisits() {
+
+  if (!GA_KEY) {
+  return { month: 0, year: 0 };
+}
   try {
     const auth = new google.auth.GoogleAuth({
       credentials: GA_KEY,
