@@ -6,11 +6,11 @@ const CONFIG = {
 
   topics: [
     {
-      name: "India",
+      name: "Australia",
       color: "#00ff9c",
-      query: "India news OR RBI OR government policy India",
+      query: "Australia news",
       fallback: [
-        "Traffic congestion rises in IT corridor",
+        "Traffic congestion rises in CBD",
         "Heavy rains affect city movement",
         "New infra project announced",
         "Real estate activity picks up",
