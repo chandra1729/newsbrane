@@ -1,6 +1,6 @@
 
 const CONFIG = {
-  maxVisibleSignals: 5,
+  maxVisibleSignals: 8,
   newsShiftInterval: 15000,
   apiRefreshRate: 2700000,
 
