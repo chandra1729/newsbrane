@@ -8,7 +8,7 @@ const CONFIG = {
     {
       name: "India",
       color: "#00ff9c",
-      query: "India news",
+      query: "india news",
       fallback: [
         "Traffic congestion rises in CBD",
         "Heavy rains affect city movement",
