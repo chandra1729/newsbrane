@@ -6,9 +6,9 @@ const CONFIG = {
 
   topics: [
     {
-      name: "India",
+      name: "Australia",
       color: "#00ff9c",
-      query: "india news",
+      query: "australia news",
       fallback: [
         "Traffic congestion rises in CBD",
         "Heavy rains affect city movement",
