@@ -324,11 +324,11 @@ header h1.headline {
 .about {
   padding: 20px;
   font-size: 12px;
-  color: #aaa;
+  color: #eeff00;
 }
 
 .about summary {
   cursor: pointer;
-  color: var(--accent-cyan);
+  color: #eeff00;
   margin-bottom: 10px;
 }
