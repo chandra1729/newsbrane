@@ -1,6 +1,6 @@
 const container = document.getElementById("main-container");
 const lastUpdatedEl = document.getElementById("last-updated");
-const REFRESH_INTERVAL = 1000 * 60 * 120; // 1 hour
+const REFRESH_INTERVAL = 1000 * 60 * 30; // 1 hour
 
 /* 🔥 ADD THIS (GLOBAL API BASE) */
 const API_BASE = "https://newsbrane-production.up.railway.app";
